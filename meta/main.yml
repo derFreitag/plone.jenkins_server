@@ -13,7 +13,6 @@ galaxy_info:
     - development
 dependencies:
  - { role: gforcada.compile-python,
-     python_26: true,
      pillow: true,
      lxml: true,
      become: true,
