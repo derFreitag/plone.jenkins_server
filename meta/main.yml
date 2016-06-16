@@ -33,7 +33,6 @@ dependencies:
        'notification',
        'throttle-concurrents',
        'disk-usage',
-       'CustomHistory',
        'email-ext',
        'xvfb',
        'port-allocator',
@@ -42,28 +41,16 @@ dependencies:
        'parameterized-trigger',
        'envinject',
        'copyartifact',
-       'github-oauth',
-       'github',
-       'clone-workspace-scm',
        'htmlpublisher',
-       'embeddable-build-status',
-       'github-api', # dep
        'git-client', # dep
        'scm-api', # dep
        'matrix-project', # dep
        'mailer', # dep
        'git', # dep
-       'workflow-aggregator', # workflow
-       'workflow-api', # workflow dep
-       'workflow-basic-steps', # workflow dep
-       'workflow-cps', # workflow dep
-       'workflow-cps-global-lib', # workflow dep
-       'workflow-durable-task-step', # workflow dep
-       'workflow-job', # workflow dep
-       'workflow-scm-step', # workflow dep
-       'workflow-step-api', # workflow dep
-       'workflow-support', # workflow dep
        'performance', # jMeter plugin
        'shiningpanda', # virtual environments
+       'cobertura', # show coverage reports
+       'gitlab-plugin', # interact with gitlab
+       'credentials-binding',  # inject credentials into jobs as environment variables
      ]
    }
