@@ -1,6 +1,34 @@
 ---
 # nginx related tasks file for jenkins_server
 
+- name: Create SSL certificates folder
+  become: yes
+  file:
+    path=/etc/nginx/ssl
+    state=directory
+    owner=root
+    group=root
+
+- name: SSL | upload SSL certificate key
+  become: yes
+  copy:
+    content: '{{ ssl_key_data }}'
+    dest: /etc/nginx/ssl/cert.key
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: SSL | upload SSL certificate
+  become: yes
+  copy:
+    content: '{{ ssl_certificate_data }}'
+    dest: /etc/nginx/ssl/cert.crt
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
 - name: Upload nginx.conf
   become: yes
   copy:

@@ -1,47 +1,38 @@
+# HTTP
 server {
   listen 80;
   server_name {{ jenkins_server_name }};
+
+  # force SSL for everything
+  return 301 https://$host$request_uri;
+}
+
+# HTTPS
+server {
+  listen 443 ssl;
+  server_name {{ jenkins_server_name }};
+
+  ssl_certificate /etc/nginx/ssl/cert.crt;
+  ssl_certificate_key /etc/nginx/ssl/cert.key;
+
+  root /var/cache/jenkins/war/;
+
+  location ~ "^/static/[0-9a-fA-F]{8}\/(.*)$" {
+    #rewrite all static files into requests to the root
+    #E.g /static/12345678/css/something.css will become /css/something.css
+    rewrite "^/static/[0-9a-fA-F]{8}\/(.*)" /$1 last;
+  }
 
   location / {
     proxy_pass              http://localhost:{{ jenkins_port }};
     proxy_set_header        Host $host;
     proxy_set_header        X-Real-IP $remote_addr;
     proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header        X-Forwarded-Proto $scheme;
     proxy_connect_timeout   150;
     proxy_send_timeout      100;
     proxy_read_timeout      100;
-    proxy_buffers           4 32k;
-    client_max_body_size    8m;
-    client_body_buffer_size 128k;
-
-  }
-
-  location /roboto/ {
-    rewrite                 ^/roboto/(.*) /$1 break;
-    proxy_pass              http://localhost:{{ roboto_port }};
-    proxy_set_header        Host $host;
-    proxy_set_header        X-Real-IP $remote_addr;
-    proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_connect_timeout   15000;
-    proxy_send_timeout      10000;
-    proxy_read_timeout      10000;
-    proxy_buffers           4 32k;
     client_max_body_size    8m;
     client_body_buffer_size 128k;
   }
-
-  location /munin/static/ {
-    alias /etc/munin/static/;
-    expires modified +1w;
-  }
-
-  location /munin {
-    #auth_basic            "Restricted";
-    # Create the htpasswd file with the htpasswd tool.
-    #auth_basic_user_file  /etc/nginx/passwdfile;
-    index index.html;
-    alias /var/cache/munin/www/;
-    expires modified +310s;
-  }
-
 }
