@@ -4,31 +4,10 @@
   <numExecutors>0</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
-  <authorizationStrategy class="org.jenkinsci.plugins.GithubAuthorizationStrategy" plugin="github-oauth@0.20">
-    <rootACL>
-      <organizationNameList class="linked-list">
-      {% for item in github_orgs %}
-        <string>{{ item }}</string>
-      {% endfor %}
-      </organizationNameList>
-      <adminUserNameList class="linked-list">
-      {% for item in jenkins_admins %}
-        <string>{{ item }}</string>
-      {% endfor %}
-      </adminUserNameList>
-      <authenticatedUserReadPermission>false</authenticatedUserReadPermission>
-      <useRepositoryPermissions>false</useRepositoryPermissions>
-      <authenticatedUserCreateJobPermission>false</authenticatedUserCreateJobPermission>
-      <allowGithubWebHookPermission>true</allowGithubWebHookPermission>
-      <allowCcTrayPermission>false</allowCcTrayPermission>
-      <allowAnonymousReadPermission>true</allowAnonymousReadPermission>
-    </rootACL>
-  </authorizationStrategy>
-  <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
-    <githubWebUri>https://github.com</githubWebUri>
-    <githubApiUri>https://api.github.com</githubApiUri>
-    <clientID>{{ github_app_client_id }}</clientID>
-    <clientSecret>{{ github_app_client_secret }}</clientSecret>
+  <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy"/>
+  <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
+    <disableSignup>true</disableSignup>
+    <enableCaptcha>false</enableCaptcha>
   </securityRealm>
   <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
@@ -42,7 +21,7 @@
     </hudson.model.AllView>
     <listView>
       <owner class="hudson" reference="../../.."/>
-      <name>Theme</name>
+      <name>Coverage</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
@@ -58,14 +37,14 @@
         <hudson.views.LastFailureColumn/>
         <hudson.views.LastDurationColumn/>
         <hudson.views.BuildButtonColumn/>
-        <hudson.plugins.robot.view.RobotListViewColumn plugin="robot@1.5.0"/>
+        <hudson.plugins.robot.view.RobotListViewColumn plugin="robot@1.6.4"/>
       </columns>
-      <includeRegex>.*theme.*</includeRegex>
+      <includeRegex>coverage-.*</includeRegex>
       <recurse>false</recurse>
     </listView>
     <listView>
       <owner class="hudson" reference="../../.."/>
-      <name>PLIPs</name>
+      <name>Distributions</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
@@ -81,14 +60,14 @@
         <hudson.views.LastFailureColumn/>
         <hudson.views.LastDurationColumn/>
         <hudson.views.BuildButtonColumn/>
-        <hudson.plugins.robot.view.RobotListViewColumn plugin="robot@1.5.0"/>
+        <hudson.plugins.robot.view.RobotListViewColumn plugin="robot@1.6.4"/>
       </columns>
-      <includeRegex>.*plip.*</includeRegex>
+      <includeRegex>distribution-.*</includeRegex>
       <recurse>false</recurse>
     </listView>
     <listView>
       <owner class="hudson" reference="../../.."/>
-      <name>QA</name>
+      <name>Documentation</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
@@ -104,14 +83,14 @@
         <hudson.views.LastFailureColumn/>
         <hudson.views.LastDurationColumn/>
         <hudson.views.BuildButtonColumn/>
-        <hudson.plugins.robot.view.RobotListViewColumn plugin="robot@1.5.0"/>
+        <hudson.plugins.robot.view.RobotListViewColumn plugin="robot@1.6.4"/>
       </columns>
-      <includeRegex>qa-.*</includeRegex>
+      <includeRegex>doc-.*</includeRegex>
       <recurse>false</recurse>
     </listView>
     <listView>
       <owner class="hudson" reference="../../.."/>
-      <name>Dependencies</name>
+      <name>Performance</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
@@ -128,12 +107,12 @@
         <hudson.views.LastDurationColumn/>
         <hudson.views.BuildButtonColumn/>
       </columns>
-      <includeRegex>.*dependencies.*</includeRegex>
+      <includeRegex>perf-.*</includeRegex>
       <recurse>false</recurse>
     </listView>
     <listView>
       <owner class="hudson" reference="../../.."/>
-      <name>Pkgs</name>
+      <name>Triggers</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
@@ -150,17 +129,26 @@
         <hudson.views.LastDurationColumn/>
         <hudson.views.BuildButtonColumn/>
       </columns>
-      <includeRegex>package-.*</includeRegex>
+      <includeRegex>trigger-.*</includeRegex>
       <recurse>false</recurse>
     </listView>
     <listView>
       <owner class="hudson" reference="../../.."/>
-      <name>Zope</name>
+      <name>General</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>global-qa</string>
+        <string>main</string>
+        <string>main-robot</string>
+        <string>plone-next</string>
+        <string>plone-next-robot</string>
+        <string>test-distribution-branch</string>
+        <string>test-distribution-branch-robot</string>
+        <string>test-global-branch</string>
+        <string>test-global-branch-robot</string>
       </jobNames>
       <jobFilters/>
       <columns>
@@ -171,69 +159,10 @@
         <hudson.views.LastFailureColumn/>
         <hudson.views.LastDurationColumn/>
         <hudson.views.BuildButtonColumn/>
+        <hudson.plugins.robot.view.RobotListViewColumn plugin="robot@1.6.4"/>
       </columns>
-      <includeRegex>zope-.*</includeRegex>
       <recurse>false</recurse>
     </listView>
-    <hudson.plugins.view.dashboard.Dashboard>
-      <owner class="hudson" reference="../../.."/>
-      <name>Core</name>
-      <filterExecutors>false</filterExecutors>
-      <filterQueue>false</filterQueue>
-      <properties class="hudson.model.View$PropertyList"/>
-      <jobNames>
-        <comparator class="hudson.util.CaseInsensitiveComparator"/>
-        <string>plone-4.3-python-2.6</string>
-        <string>plone-4.3-python-2.7</string>
-        <string>plone-5.0-python-2.7</string>
-        <string>plone-5.0-python-2.7-at</string>
-        <string>plone-5.0-python-2.7-robot</string>
-        <string>pull-request</string>
-      </jobNames>
-      <jobFilters/>
-      <columns>
-        <hudson.views.StatusColumn/>
-        <hudson.views.WeatherColumn/>
-        <hudson.views.JobColumn/>
-        <jenkins.plugins.extracolumns.BuildDurationColumn plugin="extra-columns@1.15">
-          <buildDurationType>1</buildDurationType>
-        </jenkins.plugins.extracolumns.BuildDurationColumn>
-        <hudson.views.LastDurationColumn/>
-        <jenkins.plugins.extracolumns.TestResultColumn plugin="extra-columns@1.15">
-          <testResultFormat>3</testResultFormat>
-        </jenkins.plugins.extracolumns.TestResultColumn>
-        <jenkins.plugins.extracolumns.TestResultColumn plugin="extra-columns@1.15">
-          <testResultFormat>4</testResultFormat>
-        </jenkins.plugins.extracolumns.TestResultColumn>
-        <hudson.plugins.robot.view.RobotListViewColumn plugin="robot@1.6.0"/>
-        <hudson.views.BuildButtonColumn/>
-      </columns>
-      <recurse>false</recurse>
-      <useCssStyle>false</useCssStyle>
-      <includeStdJobList>true</includeStdJobList>
-      <leftPortletWidth>50%</leftPortletWidth>
-      <rightPortletWidth>50%</rightPortletWidth>
-      <leftPortlets/>
-      <rightPortlets/>
-      <topPortlets>
-        <hudson.plugins.view.dashboard.test.TestTrendChart>
-          <id>dashboard_portlet_17238</id>
-          <name>Test Trend Chart</name>
-          <graphWidth>900</graphWidth>
-          <graphHeight>220</graphHeight>
-          <dateRange>0</dateRange>
-          <dateShift>0</dateShift>
-          <displayStatus>ALL</displayStatus>
-        </hudson.plugins.view.dashboard.test.TestTrendChart>
-      </topPortlets>
-      <bottomPortlets>
-        <hudson.plugins.view.dashboard.core.ImagePortlet>
-          <id>dashboard_portlet_2475</id>
-          <name>Sponsors</name>
-          <url>https://raw.githubusercontent.com/plone/jenkins.plone.org/master/etc/jenkins-plone-org-sponsors.png</url>
-        </hudson.plugins.view.dashboard.core.ImagePortlet>
-      </bottomPortlets>
-    </hudson.plugins.view.dashboard.Dashboard>
   </views>
-  <primaryView>Core</primaryView>
+  <primaryView>General</primaryView>
 </hudson>
