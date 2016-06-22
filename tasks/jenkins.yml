@@ -41,6 +41,14 @@
   notify:
     - 'Restart Jenkins'
 
+- name: Configure shining pandas plugin
+  become: yes
+  copy:
+    src=shiningpanda.xml
+    dest=/var/lib/jenkins/jenkins.plugins.shiningpanda.tools.PythonInstallation.xml
+  notify:
+    - 'Restart Jenkins'
+
 # false in slave-to-master-switch means that is enabled
 - name: Enable security between nodes and master
   become: yes
