@@ -54,3 +54,6 @@ dependencies:
        'credentials-binding',  # inject credentials into jobs as environment variables
      ]
    }
+ - { role: freitag.jenkins_user,
+     jenkins_user_home: /var/lib/jenkins,
+ }
