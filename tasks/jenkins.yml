@@ -25,6 +25,14 @@
   notify:
     - 'Restart Jenkins'
 
+- name: Add credentials
+  become: yes
+  template:
+    src=credentials.xml
+    dest=/var/lib/jenkins/credentials.xml
+  notify:
+    - 'Restart Jenkins'
+
 - name: Configure xvfb plugin
   become: yes
   copy:
