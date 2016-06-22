@@ -33,6 +33,14 @@
   notify:
     - 'Restart Jenkins'
 
+- name: Configure gitlab plugin
+  become: yes
+  copy:
+    src=gitlab.xml
+    dest=/var/lib/jenkins/com.dabsquared.gitlabjenkins.connection.GitLabConnectionConfig.xml
+  notify:
+    - 'Restart Jenkins'
+
 # false in slave-to-master-switch means that is enabled
 - name: Enable security between nodes and master
   become: yes
