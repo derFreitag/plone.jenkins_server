@@ -1,0 +1,22 @@
+---
+
+- name: Create users folders
+  become: yes
+  become_user: jenkins
+  file:
+    path="/var/lib/jenkins/users/{{ item.id }}"
+    state=directory
+    owner=jenkins
+    group=jenkins
+  with_items:
+    - "{{ jenkins_users }}"
+
+- name: Configure users
+  become: yes
+  become_user: jenkins
+  template:
+    src=jenkins_user.xml
+    dest="/var/lib/jenkins/users/{{ item.id }}/config.xml"
+    owner=jenkins
+    group=jenkins
+  with_items: "{{ jenkins_users }}"

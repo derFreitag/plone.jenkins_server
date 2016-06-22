@@ -16,6 +16,9 @@
 # Configure jenkins
 - include: jenkins.yml
 
+# Add jenkins users
+- include: users.yml
+
 # Configure jenkins nodes
 - include: nodes.yml
 
