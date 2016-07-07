@@ -11,5 +11,10 @@
       <home>/srv/python3.5.1/bin/python3.5</home>
       <properties/>
     </jenkins.plugins.shiningpanda.tools.PythonInstallation>
+    <jenkins.plugins.shiningpanda.tools.PythonInstallation>
+      <name>requests</name>
+      <home>/home/jenkins/venv-requests/bin/python2.7</home>
+      <properties/>
+    </jenkins.plugins.shiningpanda.tools.PythonInstallation>
   </installations>
 </jenkins.plugins.shiningpanda.tools.PythonInstallation_-DescriptorImpl>
